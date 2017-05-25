@@ -1,0 +1,2 @@
+currentVideoId = 0
+captureTime = 30.000000
