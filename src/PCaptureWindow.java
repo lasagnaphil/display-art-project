@@ -33,11 +33,26 @@ public class PCaptureWindow extends PApplet {
     }
 
     public void settings() {
-        size(640, 480);
+        size(state.resolutionX, state.resolutionY);
     }
 
     public void setup() {
-        cam = new Capture(this, 640, 480, 30);
+        String[] captureList = Capture.list();
+        for (String capture : captureList) System.out.println(capture);
+        frameRate(state.fps);
+        if (state.fps == 0) {
+            if (state.cameraName.equals("default"))
+                cam = new Capture(this, state.resolutionX, state.resolutionY);
+            else
+                cam = new Capture(this, state.resolutionX, state.resolutionY, state.cameraName);
+        }
+        else {
+            if (state.cameraName.equals("default"))
+                cam = new Capture(this, state.resolutionX, state.resolutionY, state.fps);
+            else
+                cam = new Capture(this, state.resolutionX, state.resolutionY, state.cameraName, state.fps);
+        }
+
         cam.start();
 
         // register callbacks
@@ -76,14 +91,4 @@ public class PCaptureWindow extends PApplet {
         super.exit();
     }
 
-    public void keyPressed() {
-        if (state.mode == CaptureMode.Wait && key == ENTER) {
-            state.startCapture();
-        }
-        else if (key == ESC) {
-            state.stopCapture();
-            videoExport.endMovie();
-            exit();
-        }
-    }
 }

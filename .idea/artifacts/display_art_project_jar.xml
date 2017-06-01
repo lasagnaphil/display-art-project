@@ -1,0 +1,15 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="display_art_project:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/display_art_project_jar</output-path>
+    <root id="archive" name="display_art_project.jar">
+      <element id="module-output" name="display_art_project" />
+      <element id="extracted-dir" path="$USER_HOME$/Documents/Processing/libraries/VideoExport/library/jna-4.4.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Documents/Processing/libraries/VideoExport/library/jna-platform-4.4.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Documents/Processing/libraries/VideoExport/library/VideoExport.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Documents/Processing/libraries/controlP5/library/controlP5.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Documents/Processing/core/library/core.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Documents/Processing/libraries/video/library/gstreamer-java.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Documents/Processing/libraries/video/library/video.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

@@ -21,7 +21,8 @@ public class PCameraWindow extends PApplet {
     }
 
     public void settings() {
-        size(640, 480);
+        if (state.fullScreen) fullScreen(2);
+        else size(state.resolutionX, state.resolutionY);
     }
 
     public void setup() {

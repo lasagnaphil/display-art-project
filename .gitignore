@@ -50,3 +50,7 @@ fabric.properties
 
 # Any extra video files
 *.mp4
+
+# Other extra stuff
+/sketch/
+/builds/
