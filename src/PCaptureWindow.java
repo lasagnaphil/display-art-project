@@ -5,9 +5,13 @@ import processing.video.Capture;
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamPanel;
 import com.github.sarxos.webcam.WebcamResolution;
+import uk.co.caprica.vlcj.medialist.MediaListItem;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by lasagnaphil on 2017-05-21.
@@ -29,6 +33,8 @@ class DisposeHandler {
 
 public class PCaptureWindow extends PApplet {
 
+    private static List<MediaListItem> EMPTY = new ArrayList<MediaListItem>();
+
     //private Capture cam;
     private Webcam webcam;
     private PImage screen;
@@ -48,17 +54,10 @@ public class PCaptureWindow extends PApplet {
     public void setup() {
         frameRate(state.fps);
 
-        for (Webcam cam : Webcam.getWebcams()) {
-            System.out.println(cam.getName());
-            if (cam.getName().contains(state.cameraName)) {
-                webcam = cam;
-            }
-            for (Dimension res : cam.getViewSizes()) {
-                System.out.println(res.toString());
-            }
-        }
+        MediaListItem dev0 = new MediaListItem("Microsoft¢ç LifeCam HD-3000", "dshow://", EMPTY);
+        Webcam.setDriver(new VlcjDriver(Arrays.asList(dev0)));
 
-        webcam.setViewSize(WebcamResolution.VGA.getSize());
+        webcam = Webcam.getDefault();
         webcam.open(true);
         /*
         String[] captureList = Capture.list();

@@ -1,8 +1,15 @@
+import com.sun.jna.NativeLibrary;
 import processing.core.*;
 import controlP5.*;
+import sun.plugin2.util.NativeLibLoader;
+import uk.co.caprica.vlcj.binding.LibVlc;
+import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class PControlWindow extends PApplet {
     private PCaptureWindow captureWindow;
@@ -79,6 +86,16 @@ public class PControlWindow extends PApplet {
     }
 
     public static void main(String[] args) {
+        String nativeLibraryPath;
+        try {
+            nativeLibraryPath = new String(Files.readAllBytes(Paths.get("vlcpath.txt")));
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), nativeLibraryPath);
+        System.out.println(LibVlc.INSTANCE.libvlc_get_version());
+
         PApplet.main("PControlWindow", args);
     }
 }
