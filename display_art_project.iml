@@ -11,6 +11,6 @@
     <orderEntry type="library" name="Video" level="project" />
     <orderEntry type="library" name="VideoExport" level="project" />
     <orderEntry type="library" name="controlP5" level="project" />
-    <orderEntry type="library" name="webcam-capture-0.3" level="project" />
+    <orderEntry type="library" name="vlcj" level="project" />
   </component>
 </module>

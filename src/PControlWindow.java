@@ -1,11 +1,18 @@
+import com.sun.jna.NativeLibrary;
 import processing.core.*;
 import controlP5.*;
+import uk.co.caprica.vlcj.binding.LibVlc;
+import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 
+import javax.swing.*;
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class PControlWindow extends PApplet {
-    private PCaptureWindow captureWindow;
+    private CaptureWindow captureWindow;
     private PCameraWindow camWindow;
 
     private ControlP5 cp5;
@@ -40,7 +47,9 @@ public class PControlWindow extends PApplet {
                 .setValue(state.captureTime);
 
         camWindow = new PCameraWindow(state);
-        captureWindow = new PCaptureWindow(state);
+        SwingUtilities.invokeLater(() -> {
+            captureWindow = new CaptureWindow(state);
+        });
 
     }
 
@@ -79,6 +88,15 @@ public class PControlWindow extends PApplet {
     }
 
     public static void main(String[] args) {
+        String searchPath;
+        try {
+            searchPath = new String(Files.readAllBytes(Paths.get("vlc_path.txt")));
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+        NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), searchPath);
+        System.out.println(LibVlc.INSTANCE.libvlc_get_version());
+
         PApplet.main("PControlWindow", args);
     }
 }

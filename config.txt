@@ -1,7 +1,7 @@
-currentVideoId = 12
+currentVideoId = 0
 captureTime = 3.000000
 resolutionX = 1280
 resolutionY = 720
-fps = 10
+fps = 30
 fullScreen = false
 cameraName = Microsoft LifeCam HD-3000

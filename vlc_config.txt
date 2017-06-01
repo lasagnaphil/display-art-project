@@ -1,0 +1,22 @@
+ :dshow-vdev=Microsoft® LifeCam HD-3000
+ :dshow-adev= :dshow-size=1280x720
+ :dshow-aspect-ratio=16\:9
+ :dshow-chroma=
+ :dshow-fps=0
+ :no-dshow-config
+ :no-dshow-tuner
+ :dshow-tuner-channel=0
+ :dshow-tuner-frequency=0
+ :dshow-tuner-country=0
+ :dshow-tuner-standard=0
+ :dshow-tuner-input=0
+ :dshow-video-input=-1
+ :dshow-video-output=-1
+ :dshow-audio-input=-1
+ :dshow-audio-output=-1
+ :dshow-amtuner-mode=1
+ :dshow-audio-channels=0
+ :dshow-audio-samplerate=0
+ :dshow-audio-bitspersample=0
+ :live-caching=300
+ :sout=#transcode{vcodec=h264,acodec=mpga,ab=128,channels=2,samplerate=44100}:file{dst=<filename>,no-overwrite} :sout-keep
