@@ -26,6 +26,8 @@ public class PCaptureWindow extends PApplet {
     private VideoExport videoExport;
     private CaptureState state;
 
+    private boolean shouldSaveFrame = false;
+
     public PCaptureWindow(CaptureState state) {
         super();
         this.state = state;
@@ -55,20 +57,18 @@ public class PCaptureWindow extends PApplet {
 
         cam.start();
 
+        videoExport = new VideoExport(this, state.getCurrentVideoName(), cam);
+        videoExport.setFrameRate(state.fps);
+
         // register callbacks
         state.addCaptureStartListener(() -> {
-            if (videoExport == null) {
-                videoExport = new VideoExport(this, state.getCurrentVideoName(), cam);
-            }
-            else {
-                videoExport.setMovieFileName(state.getCurrentVideoName());
-            }
+            videoExport.setMovieFileName(state.getCurrentVideoName());
             videoExport.startMovie();
+            shouldSaveFrame = true;
         });
         state.addCaptureEndListener(() -> {
-            if (videoExport != null) {
-                videoExport.endMovie();
-            }
+            shouldSaveFrame = false;
+            videoExport.endMovie();
         });
     }
 
@@ -80,7 +80,7 @@ public class PCaptureWindow extends PApplet {
         background(0);
 
         image(cam, 0, 0);
-        if (state.mode == CaptureMode.Capture) {
+        if (state.mode == CaptureMode.Capture && shouldSaveFrame) {
             videoExport.saveFrame();
         }
     }
