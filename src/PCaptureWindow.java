@@ -2,6 +2,13 @@ import com.hamoid.VideoExport;
 import processing.core.*;
 import processing.video.Capture;
 
+import com.github.sarxos.webcam.Webcam;
+import com.github.sarxos.webcam.WebcamPanel;
+import com.github.sarxos.webcam.WebcamResolution;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 /**
  * Created by lasagnaphil on 2017-05-21.
  */
@@ -22,7 +29,9 @@ class DisposeHandler {
 
 public class PCaptureWindow extends PApplet {
 
-    private Capture cam;
+    //private Capture cam;
+    private Webcam webcam;
+    private PImage screen;
     private VideoExport videoExport;
     private CaptureState state;
 
@@ -37,9 +46,24 @@ public class PCaptureWindow extends PApplet {
     }
 
     public void setup() {
+        frameRate(state.fps);
+
+        for (Webcam cam : Webcam.getWebcams()) {
+            System.out.println(cam.getName());
+            if (cam.getName().contains(state.cameraName)) {
+                webcam = cam;
+            }
+            for (Dimension res : cam.getViewSizes()) {
+                System.out.println(res.toString());
+            }
+        }
+
+        webcam.setViewSize(WebcamResolution.VGA.getSize());
+        webcam.open(true);
+        /*
         String[] captureList = Capture.list();
         for (String capture : captureList) System.out.println(capture);
-        frameRate(state.fps);
+
         if (state.fps == 0) {
             if (state.cameraName.equals("default"))
                 cam = new Capture(this, state.resolutionX, state.resolutionY);
@@ -54,11 +78,12 @@ public class PCaptureWindow extends PApplet {
         }
 
         cam.start();
+        */
 
         // register callbacks
         state.addCaptureStartListener(() -> {
             if (videoExport == null) {
-                videoExport = new VideoExport(this, state.getCurrentVideoName(), cam);
+                videoExport = new VideoExport(this, state.getCurrentVideoName(), screen);
             }
             else {
                 videoExport.setMovieFileName(state.getCurrentVideoName());
@@ -74,12 +99,14 @@ public class PCaptureWindow extends PApplet {
 
     public void draw() {
 
-        if (cam.available()) {
-            cam.read();
-        }
+        BufferedImage cap = webcam.getImage();
+        screen = new PImage(cap.getWidth(), cap.getHeight(), PConstants.ARGB);
+        cap.getRGB(0, 0, screen.width, screen.height, screen.pixels, 0, screen.width);
+        screen.updatePixels();
+
         background(0);
 
-        image(cam, 0, 0);
+        image(screen, 0, 0);
         if (state.mode == CaptureMode.Capture) {
             videoExport.saveFrame();
         }
