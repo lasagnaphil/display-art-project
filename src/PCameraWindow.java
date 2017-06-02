@@ -54,7 +54,8 @@ public class PCameraWindow extends PApplet {
         }
         else {
             if (isPlaying) {
-                image(movie, 0, 0);
+                float multiplier = height/state.resolutionY;
+                image(movie, width/2 - multiplier*state.resolutionX/2, 0, multiplier * state.resolutionX, height);
             }
             text("Capturing...", 10, 10);
             text(infoText, 10, 50);
